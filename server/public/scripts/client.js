@@ -5,13 +5,16 @@ $(document).ready(onReady);
 let who = $("#whoseJokeIn").val();
 let question = $("#questionIn").val(); 
 let punch = $("#punchlineIn").val();
+
 let jokes = [];
 
 jokes.push[
     {
     who: who,
-    question: $("#questionIn").val(),
-    punch: $("#punchlineIn").val()
+    question: question,
+    // question: $("#questionIn").val(),
+    // punch: $("#punchlineIn").val()
+    punch: punch
 }
 ];
 
@@ -59,22 +62,23 @@ console.log(who, question, punch);
 
    
 }
-// renderToDom();
+renderToDom();
 
-    // function getFromServer() {
-    //     $.ajax({
-    //     method: "GET",
-    //     url: "/server",
-    //     })
-    //     .then(function (response) {
-    //         console.log(response);
-    //         console.log("omg! GET from server is working?!");
-    //         renderToDom(response);
-    //     })
-    //     .catch(function (error) {
-    //         alert("request failed!, try again...");
-    //         console.log("request for GET failed!", error);
-    //     });
+    function getFromServer() {
+        $.ajax({
+        method: "GET",
+        url: "/server",
+        })
+        .then(function (response) {
+            console.log(response);
+            console.log("omg! GET from server is working?!");
+            renderToDom(response);
+        })
+        .catch(function (error) {
+            alert("request failed!, try again...");
+            console.log("request for GET failed!", error);
+        });
+    }
     //     // calculator();
     //   } //end of get from server
 

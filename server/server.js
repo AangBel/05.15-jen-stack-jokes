@@ -45,6 +45,7 @@ app.get("/GET", function (req, res) {
 
   // send back list of quotes to client
   res.send(jokes[0]);
+  res.send(jokes);
 
   // If I want to send an error:
   // res.sendStatus(500);
