@@ -5,8 +5,8 @@ const PORT = 5000;
 
 // use bodyParser.urlencoded throughout the app with this:
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("server/public"));
-// app.use(express.static("/server"));
+// app.use(express.static("server/public"));
+app.use(express.static("/server"));
 //jokes is an array , that already holds within it some elements
 //we want to
 
@@ -38,20 +38,21 @@ let jokes = [
   },
   // for(let i of jokes{})
 ];
-console.log(jokes);
+// console.log(jokes);
 
-app.get("/GET", function (req, res) {
-  console.log("Request for GET was made");
+app.get("/", function (req, res) {
+  console.log("Request for GET was made in server");
 
   // send back list of quotes to client
   
   res.send(jokes);
+  console.log('here is jokes:',jokes)
 
   // If I want to send an error:
-  // res.sendStatus(500);
+  res.sendStatus(response);
 });
 
-app.post("/jokesArray", function (req, res) {
+app.post("/", function (req, res) {
   console.log("POST some data!", );
   jokesArray.append(outputDiv);
 
@@ -61,7 +62,7 @@ app.post("/jokesArray", function (req, res) {
   // let saveJokes =  `${grabJokes.jokes}`
   // console.log(saveJokes);
 });
-// serve back static files
+// // serve back static files
 
 
 app.listen(PORT, () => {

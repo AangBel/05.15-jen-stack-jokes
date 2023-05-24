@@ -28,10 +28,41 @@ function renderJokes() {
     //why defining whole thing as the output div?
     //this variable = this id on the html is what this 
     //is saying... doesnt make sense though...?
-    let wholeThing = $(outputDiv);
-    //this is not appearing on the DOM console
-    console.log('what is whole thing?', wholeThing);
+    // let wholeThing = $(outputDiv);
+    // //this is not appearing on the DOM console
+    // console.log('what is whole thing?', wholeThing);
 //would i feel more comfortable doing an reg. for loop?
+let jokesNewArray = [
+  {
+    whoseJoke: "Danny",
+    jokeQuestion: "Why do scuba divers fall backwards out of boats?",
+    punchLine: "If they fell forwards they’d still be in the boat!",
+  },
+  {
+    whoseJoke: "Luke",
+    jokeQuestion: "Two fish are in a tank. What did one fish say to the other?",
+    punchLine: "Do you know how to drive this thing?",
+  },
+  {
+    whoseJoke: "Millie",
+    jokeQuestion: "What do you call a pile of cats?",
+    punchLine: "A meowntain!",
+  },
+  {
+    whoseJoke: "dEv",
+    jokeQuestion: "Why should you not play cards in the forest?",
+    punchLine: "Too many Cheetahs!",
+  },
+  {
+    whoseJoke: "Scott",
+    jokeQuestion: "I went to the zoo the other day, it had one dog...",
+    punchLine: "It was a shih tzu.",
+  },
+  ];
+
+for (let i = 0; i < jokes.length; i++){
+
+}
     for (let joke of response) {
       $('#outputDiv').append(`
                 <li>
@@ -66,8 +97,8 @@ function post2Server(event) {
 
   $.ajax({
     type: "POST",
-    url: "/server.jokes",
-    // url: "/jokesArray",
+    // url: "/server.jokes",
+    url: "/jokesArray",
     data: {
       //maybe change these to whosejoke: whosjoke?
         whoseJoke: who,
@@ -102,15 +133,15 @@ function post2Server(event) {
 //what is this meant to be doing?
 //can i consolidate this if its necessary?
   who = $("#whoseJokeIn").val();
-  console.log(who);
+  console.log('who',who);
 
   question = $("#questionIn").val();
-  console.log(question);
+  console.log('question in',question);
 
   punch = $("#punchlineIn").val();
-  console.log(punch);
+  console.log('punchline',punch);
 
-  console.log(who, question, punch);
+  console.log('who and question and punch:', who, question, punch);
 }
 //added event in parentheses here 
 //because minus the on Ready, they all 
