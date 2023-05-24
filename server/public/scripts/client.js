@@ -1,131 +1,183 @@
 console.log("client.js sourced");
 
+//TODO//
+//Your job will be to build up the server 
+//around the data in the `server/server.js` file, 
+//display the current jokes to the DOM, 
+//-----> and add the ability for users to add their own jokes and display these too.
+
 $(document).ready(onReady);
 
-let who = $("#whoseJokeIn").val();
-let question = $("#questionIn").val(); 
-let punch = $("#punchlineIn").val();
-
-let jokes = [];
-
-jokes.push[
-    {
-    who: who,
-    question: question,
-    // question: $("#questionIn").val(),
-    // punch: $("#punchlineIn").val()
-    punch: punch
-}
-];
-
-console.log(jokes);
-
-
 function onReady() {
-console.log("DOM ready");
-$("#addJokeButton").on("click", post2Server);
+  console.log("DOM ready");
+  $("#addJokeButton").on("click", post2Server);
+  //is renderJokes on ready a correct
+  //thing to do???
+  renderJokes();
+}
+
+function renderJokes() {
+  $.ajax({
+    // url: "/jokesArray",
+    url: "/server.jokes",
+    method: "GET",
+  }).then(function (response) {
+    console.log(response);
+
+    //whats output DIV?
+    //why defining whole thing as the output div?
+    //this variable = this id on the html is what this 
+    //is saying... doesnt make sense though...?
+    let wholeThing = $(outputDiv);
+    //this is not appearing on the DOM console
+    console.log('what is whole thing?', wholeThing);
+//would i feel more comfortable doing an reg. for loop?
+    for (let joke of response) {
+      $('#outputDiv').append(`
+                <li>
+                
+                ${joke.whoseJoke} 
+                ${joke.jokeQuestion} 
+                ${joke.punchLine}
+
+                </li>
+                `);
+        //why did i divide these up like this?
+    }
+
+  });
 }
 
 function post2Server(event) {
-console.log("post2Server is joking");
+  //this logs on DOM console 
+ //i remembered to do (), yay!
+  event.preventDefault(); 
 
-event.preventDefault();
+  console.log("post2Server is joking");
 
-$.ajax({
-    type: 'POST',
-    url: "/server",
-    // data: {
-    //     who: $("#whoseJokeIn").val(""),
-    //     question: $("#questionIn").val(""),
-    //     punch: $("#punchlineIn").val("")
-    // }
-}).then(function(response){
-    console.log('Ajax and shit is working so far!');
-    console.log(response);
-    renderToDom(response);
-})
-.catch(function (error) {
-    alert("ah shit catch-ed this thing wrong");
-    console.log("Request failed", error);
-});
+  let who = $("#whoseJokeIn").val();
+  console.log("who", who);
 
-who = $("#whoseJokeIn").val();
-console.log(who);
+  let question = $("#questionIn").val();
+  console.log("question In", question);
 
-question = $("#questionIn").val();
-console.log(question);
+  let punch = $("#punchlineIn").val();
+  console.log("punchline", punch);
 
-punch = $("#punchlineIn").val();
-console.log(punch);
-
-console.log(who, question, punch);
-
-   
-}
-renderToDom();
-
-    function getFromServer() {
-        $.ajax({
-        method: "GET",
-        url: "/server",
-        })
-        .then(function (response) {
-            console.log(response);
-            console.log("omg! GET from server is working?!");
-            renderToDom(response);
-        })
-        .catch(function (error) {
-            alert("request failed!, try again...");
-            console.log("request for GET failed!", error);
-        });
+  $.ajax({
+    type: "POST",
+    url: "/server.jokes",
+    // url: "/jokesArray",
+    data: {
+      //maybe change these to whosejoke: whosjoke?
+        whoseJoke: who,
+        jokeQuestion: question,
+        punchLine: punch
     }
-    //     // calculator();
-    //   } //end of get from server
+  })
+    .then(function (response) {
+      console.log("Ajax and shit is working so far!");
+      console.log(response);
+      //not sure what the line below is doing...
+      // renderToDom(response);
 
+      //should i insert this instead?
+      //is there always a call to the GET in the POST?
+      getFromServer();
+    })
+    .catch(function (error) {
+      //commenting out the alert bc its too aggressive 
+      //for me right now lol 
+      // alert("ah shit catch-ed this thing wrong");
+      console.log("Request failed here is the error message:", error);
+    });
+//where is the end } to post2Server?
+//are the variables below in the function?
+//do they have to be?
+//why am i not doing let who =...?
+//refers to the data in ajax...
+//but i have a feeling thats not how that works...
 
-function getFromArray() {
-    console.log("getFromArray is working");
-    $.ajax({
+//id already declared these in lines 47-54
+//what is this meant to be doing?
+//can i consolidate this if its necessary?
+  who = $("#whoseJokeIn").val();
+  console.log(who);
+
+  question = $("#questionIn").val();
+  console.log(question);
+
+  punch = $("#punchlineIn").val();
+  console.log(punch);
+
+  console.log(who, question, punch);
+}
+//added event in parentheses here 
+//because minus the on Ready, they all 
+//seem to need it 
+function getFromServer(event) {
+  event.preventDefault(); 
+  $.ajax({
+    method: "GET",
+    //changing the url here 
+    //i need to figure out how to 
+    //determine the correct URL 
+    // url: "/jokesArray",
+    url: "/server.jokes",
+   
+  })
+    .then(function (response) {
+      console.log(response);
+      console.log("omg! GET from server is working?!");
+      renderToDom(response);
+    })
+    .catch(function (error) {
+      alert("request failed at GET from Server, try again...");
+      console.log("request for GET from Server, failed!", error);
+    });
+}
+
+ //end of get from server
+
+function getFromArray(event) {
+  event.preventDefault(); 
+  console.log("getFromArray is working");
+  $.ajax({
     method: "GET",
     url: "/server",
     text: {
-        first: who,
-        second: question, 
-        third: punch,
-      }, //end of data
-    })
+      first: who,
+      second: question,
+      third: punch,
+    }, //end of data
+  })
     .then(function (response) {
-        console.log(response);
-        console.log("omg! GET from server is working?!");
-        renderToDom(response);
+      console.log(response);
+      console.log("omg! GET from server is working at GET from Array?!");
+      //render to DOM response again?
+      //porque???
+      // renderToDom(response);
     })
     .catch(function (error) {
-        alert("request failed!, try again...");
-        console.log("request for GET failed!", error);
+      alert("request failed! at GET from Array try again...");
+      console.log("request for GET at Get from Array", error);
     });
-    // calculator();
 }
 function renderToDom(jokes) {
-    console.log("Got Data!");
+//Why does this one not need a prevent Default for event?
+  console.log("Got Data! @ renderToDom");
+  let wholeThing = 
+  //why arrays of 0, again?
+    jokes[0].who 
+  + jokes[0].question 
+  + jokes[0].punch;
 
+  //dont i need a loop to get to an array
+  // like below?
 
-    let wholeThing = (jokes[0].who + jokes[0].question + jokes[0].punch);
-    $("#outputDiv").append(`
+  $("#outputDiv").append(`
 
-    <li>${wholeThing[jokes.length -1]}</li>
+    <li>${wholeThing[jokes.length - 1]}</li>
     <li>${wholeThing}</li>
     `);
-} 
-renderToDom();
-// $('#answer').text(total)
-
-
-    // let total = $(inputA) + potato + $(inputB);
-    // console.log("total", total);
-    // for (let i of calcHx{length-1});
-
-    
-
-
-
-
+}

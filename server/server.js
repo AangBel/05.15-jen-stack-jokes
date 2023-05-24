@@ -41,22 +41,20 @@ let jokes = [
 console.log(jokes);
 
 app.get("/GET", function (req, res) {
-  console.log("Request for /GET was made");
+  console.log("Request for GET was made");
 
   // send back list of quotes to client
-  res.send(jokes[0]);
+  
   res.send(jokes);
 
   // If I want to send an error:
   // res.sendStatus(500);
 });
 
-app.post("/POST", function (req, res) {
-  console.log("POST some data!", req.body);
+app.post("/jokesArray", function (req, res) {
+  console.log("POST some data!", );
+  jokesArray.append(outputDiv);
 
-  req.body.whoseJoke;
-  req.body.jokeQuestion;
-  req.body.punchLine;
   // let grabJokes = req.body;
   // jokes.push({grabJokes})
 
